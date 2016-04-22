@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "os"
+  "regexp"
   "encoding/json"
   "github.com/nlopes/slack"
 )
@@ -10,6 +11,7 @@ import (
 type Config struct {
   Key      string
   Channel  string
+  Launcher string
 }
 
 func main() {
@@ -29,7 +31,8 @@ func main() {
     fmt.Printf("%s\n", err)
     return
   }
+  re := regexp.MustCompile(".*<([^>]*)>.*")
   for _, pin := range pins {
-    fmt.Println(pin.Message.Text)
+    fmt.Println(re.ReplaceAllString(pin.Message.Text, "${1}"))
   }
 }
