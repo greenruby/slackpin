@@ -1,8 +1,8 @@
 package main
 
 import (
-  "fmt"
   "os"
+  "fmt"
   "regexp"
   "encoding/json"
   "github.com/nlopes/slack"
@@ -33,6 +33,7 @@ func main() {
   }
   re := regexp.MustCompile(".*<([^>]*)>.*")
   for _, pin := range pins {
-    fmt.Println(re.ReplaceAllString(pin.Message.Text, "${1}"))
+    url := fmt.Sprintf(re.ReplaceAllString(pin.Message.Text, "${1}"))
+    fmt.Println(config.Launcher, url)
   }
 }
