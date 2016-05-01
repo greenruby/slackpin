@@ -32,7 +32,11 @@ func main() {
     return
   }
   for _, pin := range pins {
-    
-    fmt.Println(config.Launcher, url)
+    _, err = api.RemovePin(config.Channel, pin)
+    if err != nil {
+      fmt.Printf("%s\n", err)
+      return
+    }
+    fmt.Printf("%s removed.\n", pin)
   }
 }
