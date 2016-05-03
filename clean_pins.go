@@ -3,7 +3,6 @@ package main
 import (
   "os"
   "fmt"
-  "regexp"
   "encoding/json"
   "github.com/nlopes/slack"
 )
@@ -28,15 +27,17 @@ func main() {
   api := slack.New(config.Key)
   pins, _, err := api.ListPins(config.Channel)
   if err != nil {
-    fmt.Printf("%s\n", err)
+    fmt.Printf("Error listing pins: %s\n", err)
     return
   }
   for _, pin := range pins {
-    _, err = api.RemovePin(config.Channel, pin)
+    msgRef := slack.NewRefToMessage(config.Channel, pin.Message.Timestamp)
+    // fmt.Printf("%+v\n", msgRef)
+    err = api.RemovePin(config.Channel, msgRef)
     if err != nil {
-      fmt.Printf("%s\n", err)
+      fmt.Printf("Error remove pin: %s\n", err)
       return
     }
-    fmt.Printf("%s removed.\n", pin)
+    fmt.Printf("\"%s\" removed.\n", pin.Message.Text)
   }
 }
