@@ -4,6 +4,7 @@ import (
   "os"
   "fmt"
   "regexp"
+  "strings"
   "encoding/json"
   "github.com/nlopes/slack"
 )
@@ -32,8 +33,24 @@ func main() {
     return
   }
   re := regexp.MustCompile(".*<([^>]*)>.*")
+  users := make(map[string]string)
   for _, pin := range pins {
     url := fmt.Sprintf(re.ReplaceAllString(pin.Message.Text, "${1}"))
+    if (users[pin.Message.User] == "") {
+      user, err := api.GetUserInfo(pin.Message.User)
+      if err != nil {
+        fmt.Printf("%s\n", err)
+        return
+      }
+      users[pin.Message.User] = user.Name
+    }
     fmt.Println(config.Launcher, url)
   }
+  i := 0
+  userlist := make([]string, len(users))
+  for _, v := range users {
+    userlist[i] = v
+    i++
+  }
+  fmt.Println(strings.Join(userlist[:], ", "))
 }
