@@ -5,23 +5,18 @@ import (
   "os"
   "encoding/json"
   "github.com/nlopes/slack"
+  "./config"
 )
 
 type Config struct {
   Key      string
   Channel  string
+  Launcher string
 }
 
 func main() {
 
-  file, _ := os.Open("config.json")
-  decoder := json.NewDecoder(file)
-  config := Config{}
-  err := decoder.Decode(&config)
-  if err != nil {
-    fmt.Println("error:", err)
-    return
-  }
+  config := Config.new("config.json")
 
   api := slack.New(config.Key)
   groups, err := api.GetGroups(false)

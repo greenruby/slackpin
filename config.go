@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
   "os"
@@ -25,4 +25,5 @@ func main() {
     fmt.Println("error:", err)
     return
   }
+
 }
