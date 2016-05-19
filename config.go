@@ -3,10 +3,7 @@ package config
 import (
   "os"
   "fmt"
-  "regexp"
-  "strings"
   "encoding/json"
-  "github.com/nlopes/slack"
 )
 
 type Config struct {
