@@ -17,4 +17,4 @@ Used by the [GreenRuby][1] publication workflow:
 - then he unpins everything to make it clean for a new week
 
 
-[q]: http://greenruby.org
+[1]: http://greenruby.org
